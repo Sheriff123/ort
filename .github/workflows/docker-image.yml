@@ -1,0 +1,17 @@
+name: ORT Image
+
+on: [push]
+    
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: |
+        docker build -t ort
+        docker run -v /workspace:/project ort --info analyze -f JSON -i /project -o /project/ort/analyzer
+
