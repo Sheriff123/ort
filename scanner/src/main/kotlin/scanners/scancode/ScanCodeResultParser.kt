@@ -40,10 +40,11 @@ import org.ossreviewtoolkit.utils.spdx.SpdxConstants
 import org.ossreviewtoolkit.utils.spdx.SpdxConstants.LICENSE_REF_PREFIX
 import org.ossreviewtoolkit.utils.spdx.calculatePackageVerificationCode
 
-private data class LicenseExpression(
+private data class LicenseMatch(
     val expression: String,
     val startLine: Int,
-    val endLine: Int
+    val endLine: Int,
+    val score: Float
 )
 
 data class LicenseKeyReplacement(
@@ -176,28 +177,30 @@ private fun getLicenseFindings(result: JsonNode, parseExpressions: Boolean): Lis
 
         licenses.groupBy(
             keySelector = {
-                LicenseExpression(
+                LicenseMatch(
                     // Older ScanCode versions do not produce the `license_expression` field.
                     // Just use the `key` field in this case.
                     it["matched_rule"]?.get("license_expression")?.textValue().takeIf { parseExpressions }
                         ?: it["key"].textValue(),
                     it["start_line"].intValue(),
-                    it["end_line"].intValue()
+                    it["end_line"].intValue(),
+                    it["score"].floatValue()
                 )
             },
             valueTransform = {
                 LicenseKeyReplacement(it["key"].textValue(), getSpdxLicenseId(it))
             }
-        ).map { (licenseExpression, replacements) ->
-            val spdxLicenseExpression = replaceLicenseKeys(licenseExpression.expression, replacements)
+        ).map { (licenseMatch, replacements) ->
+            val spdxLicenseExpression = replaceLicenseKeys(licenseMatch.expression, replacements)
 
             LicenseFinding(
                 license = spdxLicenseExpression,
                 location = TextLocation(
                     path = file["path"].textValue().removePrefix(input),
-                    startLine = licenseExpression.startLine,
-                    endLine = licenseExpression.endLine
-                )
+                    startLine = licenseMatch.startLine,
+                    endLine = licenseMatch.endLine
+                ),
+                score = licenseMatch.score
             )
         }
     }
