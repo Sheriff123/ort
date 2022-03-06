@@ -31,12 +31,12 @@ jobs:
       uses: gittools/actions/gitversion/setup@v0.9.7
       with:
         versionSpec: '5.5.0'
-
     - name: Checkout ORT
       uses: actions/checkout@v2
       with:
         repository: Sheriff123/ort
         path: ort
+
     = name: Run ORT
       run: |
          cd ort
