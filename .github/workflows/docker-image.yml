@@ -17,8 +17,9 @@ jobs:
         path: scancode-toolkit
         run: |
           cd scancode-toolkit
-          ./configure
-          source venv/bin/activate
+          docker build -t scancode-toolkit .
+          docker run scancode-toolkit --help
+
 
     - uses: actions/setup-java@v2
       with:
