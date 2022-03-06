@@ -20,5 +20,6 @@ jobs:
       run: |
         cd scancode-toolkit
         docker build -t scancode-toolkit .
+        cd ..
         docker run scancode-toolkit --help
 
