@@ -37,7 +37,7 @@ jobs:
         repository: Sheriff123/ort
         path: ort
 
-    = name: Run ORT
+    - name: Run ORT
       run: |
          cd ort
          docker build -t ort .
