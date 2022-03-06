@@ -40,5 +40,5 @@ jobs:
     - name: Run ORT
       run: |
          cd ort
-         docker build -t ort .
-         docker run -v /workspace:/project ort --info analyze -f JSON -i /project -o /project/ort/analyzer
+         ./gradlew installDist
+         ./cli/build/install/ort/bin/ort requirements
