@@ -9,32 +9,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout ORT
+      uses: actions/checkout@v2
     - name: Checkout and run Scancode
       uses: actions/checkout@v2
       with:
         repository: Sheriff123/scancode-toolkit
         path: scancode-toolkit
-        run: |
-          cd scancode-toolkit
-          docker build -t scancode-toolkit .
-          docker run scancode-toolkit --help
-
-
-    - uses: actions/setup-java@v2
-      with:
-        distribution: 'zulu' # See 'Supported distributions' for available options
-        java-version: '11'
-    - uses: actions/setup-python@v2
-      with:
-        python-version: '3.6.8'
- 
-    - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.7
-      with:
-        versionSpec: '5.5.0'
-    - name: Build the Docker image
+    - name: Run Scancode toolkit
       run: |
-        docker build -t ./../ort
-        docker run -v /workspace:/project ort --info analyze -f JSON -i /project -o /project/ort/analyzer
+        cd scancode-toolkit
+        docker build -t scancode-toolkit .
+        docker run scancode-toolkit --help
 
