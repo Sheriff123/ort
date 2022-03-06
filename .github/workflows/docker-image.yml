@@ -10,14 +10,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Install Scancode
+    - name: Checkout and run Scancode
       uses: actions/checkout@v2
       with:
         repository: Sheriff123/scancode-toolkit
         path: scancode-toolkit
         run: |
           cd scancode-toolkit
-          docker build -t scancode-toolkit .
+          ./configure
+          source venv/bin/activate
 
     - uses: actions/setup-java@v2
       with:
