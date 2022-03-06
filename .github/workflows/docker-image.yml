@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Checkout tools repo
+    - name: Install Scancode
       uses: actions/checkout@v2
       with:
         repository: Sheriff123/scancode-toolkit
