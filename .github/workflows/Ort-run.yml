@@ -36,9 +36,3 @@ jobs:
       with:
         repository: Sheriff123/ort
         path: ort
-
-    - name: Run ORT
-      run: |
-         cd ort
-         ./gradlew installDist
-         ./cli/build/install/ort/bin/ort requirements
