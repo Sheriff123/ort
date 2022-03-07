@@ -37,4 +37,4 @@ jobs:
         repository: Sheriff123/ort
         path: ort
     - name: test Scancode
-      run: scancode --help
+      run: docker run scancode-toolkit --help
