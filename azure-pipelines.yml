@@ -5,13 +5,10 @@ parameters:
   default: ubuntu-latest
   values:
   - windows-latest
-  - vs2017-win2016
   - ubuntu-latest
-  - ubuntu-16.04
   - macOS-latest
-  - macOS-10.14
 
-trigger: none # trigger is explicitly set to none
+trigger: none
 
 jobs:
 - job: build
@@ -20,19 +17,3 @@ jobs:
     vmImage: ${{ parameters.image }}
   steps:
   - script: echo building $(Build.BuildNumber) with ${{ parameters.image }}
-
-
- jobs :
- = job: RunTest
-   workspace:
-    clean: all
-   pool:
-    vmImage:'ubuntu-latest'
-  steps:
-  = task: Docker@2
-    displayName: Login to ACR
-    inputs:
-      command: login
-      contrainerRegistery: my-acr
-  - script:
-     docker run my-registry.azurecr.io/somerepo/end-hello:latest
