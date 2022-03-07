@@ -36,3 +36,5 @@ jobs:
       with:
         repository: Sheriff123/ort
         path: ort
+    - name: test Scancode
+      run: scancode --help
